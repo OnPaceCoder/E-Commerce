@@ -1,4 +1,4 @@
-import Product from "../models/product.model";
+import Product from "../models/product.model.js";
 
 //@desc   Fetch all products 
 //@route  GET /api/products
@@ -197,3 +197,6 @@ const getTopProducts = async (req, res) => {
 
     res.status(200).json(products)
 }
+
+
+export { getProducts, getProductById, createProduct, updateProduct, deleteProduct, createProductReview, getTopProducts }
