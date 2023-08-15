@@ -40,7 +40,7 @@ const registerUser = async (req, res) => {
 
     if (userExists) {
         res.status(400);
-        throw new Error('User already exists');
+        return res.status(400).json({ error: 'User already exists' });
 
     }
 
@@ -61,8 +61,9 @@ const registerUser = async (req, res) => {
         })
     }
     else {
-        res.status(400);
-        throw new Error('Invalid user data')
+
+        return res.status(400).json({ error: 'Invalid user data' });
+
     }
 
 
