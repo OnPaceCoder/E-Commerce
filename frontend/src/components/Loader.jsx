@@ -1,8 +1,15 @@
 import React from 'react'
-
+import { ImSpinner11 } from 'react-icons/im'
 const Loader = () => {
     return (
-        <div>Loader</div>
+        <>
+            <div className='flex justify-center'>
+
+                {
+                    <ImSpinner11 className='spinner' />
+                }
+            </div>
+        </>
     )
 }
 
