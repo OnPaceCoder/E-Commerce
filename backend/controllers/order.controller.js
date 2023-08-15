@@ -1,8 +1,8 @@
-import Order from "../models/order.model";
-import Product from "../models/product.model";
-import { calcPrices } from "../utils/calcPrices";
+import Order from "../models/order.model.js";
+import Product from "../models/product.model.js";
+import { calcPrices } from "../utils/calcPrices.js";
 
-import { verifyPayPalPayment, checkIfNewTransaction } from "../utils/paypal";
+import { verifyPayPalPayment, checkIfNewTransaction } from "../utils/paypal.js";
 
 //@desc   Create new order
 //@route  POST  /api/orders
