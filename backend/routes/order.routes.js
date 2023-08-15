@@ -4,7 +4,7 @@ const router = express.Router();
 import {
     addOrderItems,
     getMyOrders,
-    getOrdersById,
+    getOrderById,
     updateOrderToPaid,
     updateOrderToDelivered,
     getOrders,
@@ -18,7 +18,7 @@ router.route('/').post(protect, addOrderItems).get(protect, admin, getOrders);
 
 router.route('/mine').get(protect, getMyOrders);
 
-router.route('/:id').get(protect, getOrdersById);
+router.route('/:id').get(protect, getOrderById);
 
 router.route('/:id/pay').put(protect, updateOrderToPaid);
 
