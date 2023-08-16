@@ -6,9 +6,9 @@ const Footer = () => {
 
     return (
         <>
-            <div className='w-full'>
+            <div className='w-full absolute bottom-0 py-5'>
 
-                <div className='max-w-[1240px] flex mx-auto'>
+                <div className='max-w-[1240px] mx-auto flex justify-center'>
                     <p>ShopOn &copy; {currentYear}</p>
                 </div>
 
