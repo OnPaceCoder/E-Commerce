@@ -1,8 +1,14 @@
 import React from 'react'
 
-const FormContainer = () => {
+const FormContainer = ({ children }) => {
     return (
-        <div>FormContainer</div>
+        <div className='w-full '>
+
+            <div className='max-w-xl  flex flex-col   mx-auto  px-4 '>
+
+                {children}
+            </div>
+        </div>
     )
 }
 
