@@ -3,8 +3,42 @@ import { HiMenu } from "react-icons/hi";
 import { RiShoppingCartFill } from 'react-icons/ri'
 import { BiSolidShoppingBags } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
+import SearchBox from './SearchBox';
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { useLogoutMutation } from '../slices/usersApiSlice';
+import { logout } from '../slices/authSlice'
+import { toast } from 'react-toastify'
 const Header = () => {
     const [open, setOpen] = useState(false);
+
+    const { userInfo } = useSelector((state) => state.auth)
+
+    const dispatch = useDispatch()
+
+    const navigate = useNavigate()
+
+    const [logoutApi] = useLogoutMutation();
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApi().unwrap()
+            dispatch(logout())
+            toast.success("Successfully logged out")
+            navigate('/')
+        }
+        catch (err) {
+            toast.error(`${err?.data?.error}` || `${err.error}`)
+        }
+    }
+
+
+
+
+
+
+
+
 
     return (
 
@@ -18,10 +52,7 @@ const Header = () => {
 
                     </div>
                     <div className='md:flex hidden items-center gap-5'>
-                        <form action="" className='flex gap-4'>
-                            <input className='bg-gra-200 px-4 py-2 border-gray-400 border rounded-md' type="text" placeholder='Search Products..' />
-                            <button className='px-4 py-1 bg-slate-200 rounded-lg text-lg'>Search</button>
-                        </form>
+                        <SearchBox />
                         <div className='flex text-lg items-center   gap-2'>
                             <RiShoppingCartFill size={20} />
                             <span>Cart</span>
@@ -31,16 +62,14 @@ const Header = () => {
                             <FaUser size={20} />
                             <span>SignIn</span>
                         </div>
+                        <button onClick={logoutHandler}> Logout</button>
                     </div>
 
                     <div className='md:hidden '>
                         <HiMenu size={25} onClick={() => setOpen(!open)} />
                         {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-5'>
                             <div className='gap-5 flex flex-col'>
-                                <form action="" className='flex gap-4'>
-                                    <input className='bg-gra-200 px-4 py-2 border-gray-400 border rounded-md' type="text" placeholder='Search Products..' />
-                                    <button className='px-4 py-1 bg-slate-200 rounded-lg text-lg'>Search</button>
-                                </form>
+                                <SearchBox />
                                 <div className='flex text-lg items-center   gap-2'>
                                     <RiShoppingCartFill size={20} />
                                     <span>Cart</span>
