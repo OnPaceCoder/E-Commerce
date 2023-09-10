@@ -41,7 +41,8 @@ const LoginScreen = () => {
             navigate('/')
         }
         catch (err) {
-            toast.error(`${err?.data?.error}` || `${err.error}`)
+
+            toast.error(`${err?.data.message}` || `${err.error}`)
 
         }
     }
