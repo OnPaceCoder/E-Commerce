@@ -7,7 +7,7 @@ import User from '../models/user.model.js'
 //@route POST /api/users/auth
 //@access public
 
-const authUser = async (req, res) => {
+const authUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -23,7 +23,8 @@ const authUser = async (req, res) => {
     }
     else {
         res.status(401);
-        throw new Error('Invalid email or password');
+        next(new Error("Invalid email or password"))
+
     }
 
 }
@@ -88,7 +89,7 @@ const logoutUser = (req, res) => {
 //@route  GET /api/users/profile
 //access  Private
 
-const getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
@@ -101,7 +102,8 @@ const getUserProfile = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('User not found')
+        next(new Error("User not found"))
+
     }
 }
 
@@ -110,7 +112,7 @@ const getUserProfile = async (req, res) => {
 //@access Private
 
 
-const updateUserProfile = async (req, res) => {
+const updateUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
@@ -132,7 +134,8 @@ const updateUserProfile = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('User not found')
+        next(new Error("User not found"))
+
     }
 
 }
@@ -151,7 +154,7 @@ const getUsers = async (req, res) => {
 //@route DELETE  /api/users/:id
 //access Private/Admin
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     const user = await User.findById(req.params.id);
     if (user) {
         if (user.isAdmin) {
@@ -164,7 +167,9 @@ const deleteUser = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('User not found')
+        const error = new Error("User not found");
+        next(error);
+
     }
 }
 
@@ -173,7 +178,7 @@ const deleteUser = async (req, res) => {
 //route   Get /api/users/:id
 //@access Private/Admin
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
     const user = await User.findById(req.params.id).select('-password');
 
     if (user) {
@@ -181,7 +186,9 @@ const getUserById = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error("User not found")
+        const error = new Error("User not found")
+
+        next(error)
     }
 }
 
@@ -189,7 +196,7 @@ const getUserById = async (req, res) => {
 //@route  PUT /api/users/:id
 //@access Private / Admin
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const user = await User.findById(req.params.id);
 
     if (user) {
@@ -208,7 +215,8 @@ const updateUser = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('User not found')
+        next(new Error("User not found"))
+
     }
 }
 
