@@ -11,7 +11,7 @@ import { verifyPayPalPayment, checkIfNewTransaction } from "../utils/paypal.js";
 const addOrderItems = async (req, res) => {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
 
-    if (orderItems && orderItems.lenght === 0) {
+    if (orderItems && orderItems.length === 0) {
         res.status(400);
         throw new Error("No order items");
     }
@@ -67,7 +67,7 @@ const addOrderItems = async (req, res) => {
 //@access Private
 
 
-const getMyOrders = async (req, res) => {
+const getMyOrders = async (req, res, next) => {
     const order = await Order.find({ user: req.user._id });
 
     res.status(200).json(order);
@@ -86,7 +86,9 @@ const getOrderById = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('Order not found')
+        const error = new Error("Order not found");
+        next(error);
+
     }
 }
 
@@ -94,7 +96,7 @@ const getOrderById = async (req, res) => {
 //@desc   Update order to paid
 //@route  GET  /api/orders/:id/pay
 //@access Private
-const updateOrderToPaid = async (req, res) => {
+const updateOrderToPaid = async (req, res, next) => {
     const { verified, value } = await verifyPayPalPayment(req.body.id)
     if (!verified) {
         throw new Error('Payment not verified');
@@ -102,7 +104,8 @@ const updateOrderToPaid = async (req, res) => {
     // check if this transaction has been used before
     const isNewTransaction = await checkIfNewTransaction(Order, req.body.id);
     if (!isNewTransaction) {
-        throw new Error('Transaction has been used before');
+        next(new Error("Transaction has been used before"))
+
     }
     const order = await Order.findById(req.params.id);
 
