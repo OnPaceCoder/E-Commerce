@@ -14,6 +14,7 @@ const Header = () => {
 
     const { userInfo } = useSelector((state) => state.auth)
 
+
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
@@ -46,9 +47,9 @@ const Header = () => {
 
             <div className='w-full'>
                 <div className='max-w-[1240px] flex justify-between mx-auto items-center px-5 py-3 relative md:border-b-2  '>
-                    <div className='flex items-center justify-evenly '>
+                    <div className='flex items-center justify-evenly  cursor-pointer' onClick={() => navigate("/")}>
                         <BiSolidShoppingBags size={30} />
-                        <h1 className='text-2xl font-bold hover:cursor-pointer px-2'>ShopOn</h1>
+                        <h1 className='text-2xl font-bold hover:cursor-pointer px-2' >ShopOn</h1>
 
                     </div>
                     <div className='md:flex hidden items-center gap-5'>
@@ -58,31 +59,59 @@ const Header = () => {
                             <span>Cart</span>
                         </div>
 
-                        <div className='flex text-lg items-center gap-2'>
-                            <FaUser size={20} />
-                            <span>SignIn</span>
-                        </div>
-                        <button onClick={logoutHandler}> Logout</button>
+                        {
+                            !userInfo && (
+                                <div className='flex text-lg items-center gap-2 cursor-pointer' onClick={() => navigate("/login")}>
+                                    <FaUser size={20} />
+                                    <span >SignIn</span>
+                                </div>
+                            )
+                        }
+
+                        {
+                            userInfo && (
+                                <div className='flex text-lg items-center gap-2 cursor-pointer' onClick={() => { navigate("/login"); logoutHandler(); }}>
+                                    <FaUser size={20} />
+                                    <span >Logout</span>
+                                </div>
+
+                            )
+                        }
+
                     </div>
 
                     <div className='md:hidden '>
                         <HiMenu size={25} onClick={() => setOpen(!open)} />
-                        {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-5'>
+                        {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-0 px-5'>
                             <div className='gap-5 flex flex-col'>
                                 <SearchBox />
                                 <div className='flex text-lg items-center   gap-2'>
                                     <RiShoppingCartFill size={20} />
                                     <span>Cart</span>
                                 </div>
+                                {
+                                    !userInfo && (
+                                        <div className='flex text-lg items-center gap-2' onClick={() => { navigate("/login"); setOpen(!open) }}>
+                                            <FaUser size={20} />
+                                            <span>SignIn</span>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    userInfo && (
+                                        <div className='flex text-lg items-center gap-2' onClick={() => { navigate("/"); setOpen(!open); logoutHandler() }}>
+                                            <FaUser size={20} />
+                                            <span>Logout</span>
+                                        </div>
 
-                                <div className='flex text-lg items-center gap-2'>
-                                    <FaUser size={20} />
-                                    <span>SignIn</span>
-                                </div>
+                                    )
+                                }
+
+
                             </div>
                         </div>
                             :
-                            <div className='absolute top-16 left-[-100%] ease-in-out duration-500 h-[100vh] w-[35vh] mx-5'>
+                            <div className='absolute top-16 left-[-100%] ease-in-out duration-500 h-[100vh] w-[35vh] mx-0 px-5'>
                                 <div className=' gap-5 flex flex-col '>
                                     <form action="" className='flex gap-4'>
                                         <input className='bg-gra-200 px-4 py-2 border-gray-400 border rounded-md' type="text" placeholder='Search Products..' />
