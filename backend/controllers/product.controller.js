@@ -65,23 +65,34 @@ const getProductById = async (req, res) => {
 //@route  POST /api/products
 //@access Private/Admin
 
-const createProduct = async (req, res) => {
-
+const createProduct = async (req, res, next) => {
+    const { image, brand, category, description, rating, numReviews, countInStock } = req.body;
+    const user = req.user._id;
+    const name = req.user.name;
     const product = new Product({
-        user: req.user._id,
-        name: 'Priyank DevRel',
-        image: 'http://res.cloudinary.com/dsfeffsr9/image/upload/v1689783715/fiverr/ryxdttqw6jqtxqmuzl3i.jpg',
-        brand: 'Sony',
-        category: 'Electronics',
-        description: 'Full HD camera with great resolution and high color combination and OLED display.',
-        rating: 0,
-        numReviews: 0,
-        countInStock: 5,
+        user,
+        name,
+        image,
+        brand,
+        category,
+        description,
+        rating,
+        numReviews,
+        countInStock,
 
     })
 
-    const createdProduct = await createProduct.save();
-    res.status(201).json(createProduct)
+    try {
+        const createdProduct = await product.save();
+        if (createProduct) {
+
+            res.status(201).json(createdProduct)
+        }
+    } catch (error) {
+        res.status(404);
+        next(new Error(error))
+    }
+
 }
 
 
@@ -90,29 +101,29 @@ const createProduct = async (req, res) => {
 //@route  PUT /api/products/:id
 //access  Private/Admin
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
 
     const { name, price, description, image, brand, category, countInStock } = req.body;
 
     const product = await Product.findById(req.params.id);
 
     if (product) {
-        product.name = name;
-        product.price = price;
-        product.description = description;
-        product.image = image;
-        product.brand = brand;
-        product.category = category;
-        product.countInStock = countInStock;
+        product.name = name || product.name;
+        product.price = price || product.price;
+        product.description = description || product.description;
+        product.image = image || product.image;
+        product.brand = brand || product.brand;
+        product.category = category || product.category;
+        product.countInStock = countInStock || product.countInStock;
 
 
         const updatedProduct = await product.save();
 
-        res.status(200).json(updateProduct);
+        res.status(200).json(updatedProduct);
 
     } else {
         res.status(404);
-        throw new Error('Product not found');
+        next(new Error("Product not found"))
     }
 
 }
@@ -122,8 +133,8 @@ const updateProduct = async (req, res) => {
 //@route  DELETE /api/products/:id
 //@access Private/Admin
 
-const deleteProduct = async (req, res) => {
-    const product = await Product(req.params.id);
+const deleteProduct = async (req, res, next) => {
+    const product = await Product({ _id: req.params.id });
 
 
     if (product) {
@@ -132,7 +143,7 @@ const deleteProduct = async (req, res) => {
     }
     else {
         res.status(404);
-        throw new Error('Product not found');
+        next(new Error("Product not found"))
     }
 }
 
