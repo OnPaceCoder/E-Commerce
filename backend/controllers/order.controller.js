@@ -8,12 +8,13 @@ import { verifyPayPalPayment, checkIfNewTransaction } from "../utils/paypal.js";
 //@route  POST  /api/orders
 //@access Private
 
-const addOrderItems = async (req, res) => {
+const addOrderItems = async (req, res, next) => {
     const { orderItems, shippingAddress, paymentMethod } = req.body;
 
     if (orderItems && orderItems.length === 0) {
         res.status(400);
-        throw new Error("No order items");
+        next(new Error("No order items"));
+
     }
     else {
 
@@ -79,7 +80,7 @@ const getMyOrders = async (req, res, next) => {
 //@route  GET  /api/orders/:id
 //@access Private
 
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
     if (order) {
         res.status(200).json(order)
@@ -126,7 +127,7 @@ const updateOrderToPaid = async (req, res, next) => {
     }
     else {
         res.status(404);
-        throw new Error('Order not found')
+        next(new Error("Order not found"))
     }
 
 
@@ -137,7 +138,7 @@ const updateOrderToPaid = async (req, res, next) => {
 //@route   GET  /api/orders/:id/deliver
 //@access  Private/Admin
 
-const updateOrderToDelivered = async (req, res) => {
+const updateOrderToDelivered = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
@@ -150,7 +151,8 @@ const updateOrderToDelivered = async (req, res) => {
 
     } else {
         res.status(404);
-        throw new Error('Order not found');
+        next("Order not found")
+
     }
 
 
