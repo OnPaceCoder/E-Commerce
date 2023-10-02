@@ -1,4 +1,5 @@
 import React from 'react'
+import { Col, Container, Row } from 'react-bootstrap';
 
 const Footer = () => {
 
@@ -6,13 +7,15 @@ const Footer = () => {
 
     return (
         <>
-            <div className='w-full absolute bottom-0 py-5'>
-
-                <div className='max-w-[1240px] mx-auto flex justify-center'>
-                    <p>ShopOn &copy; {currentYear}</p>
-                </div>
-
-            </div>
+            <footer>
+                <Container>
+                    <Row>
+                        <Col className='text-center py-3'>
+                            <p>ProShop &copy; {currentYear}</p>
+                        </Col>
+                    </Row>
+                </Container>
+            </footer>
 
         </>
     )
