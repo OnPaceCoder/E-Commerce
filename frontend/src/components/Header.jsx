@@ -52,9 +52,9 @@ const Header = () => {
                         <h1 className='text-2xl font-bold hover:cursor-pointer px-2' >ShopOn</h1>
 
                     </div>
-                    <div className='md:flex hidden items-center gap-5'>
+                    <div className='md:flex hidden items-center gap-3'>
                         <SearchBox />
-                        <div className='flex text-lg items-center   gap-2'>
+                        <div className='flex text-lg items-center '>
                             <RiShoppingCartFill size={20} />
                             <span>Cart</span>
                         </div>
