@@ -45,7 +45,7 @@ const Header = () => {
 
         <>
 
-            <div className='w-full'>
+            <div className='w-full mb-3'>
                 <div className='max-w-[1240px] flex justify-between mx-auto items-center px-5 py-3 relative md:border-b-2  '>
                     <div className='flex items-center justify-evenly  cursor-pointer' onClick={() => navigate("/")}>
                         <BiSolidShoppingBags size={30} />
@@ -82,7 +82,7 @@ const Header = () => {
 
                     <div className='md:hidden '>
                         <HiMenu size={25} onClick={() => setOpen(!open)} />
-                        {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-0 px-5'>
+                        {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-0 px-5 z-10'>
                             <div className='gap-5 flex flex-col'>
                                 <SearchBox />
                                 <div className='flex text-lg items-center   gap-2'>
@@ -111,7 +111,7 @@ const Header = () => {
                             </div>
                         </div>
                             :
-                            <div className='absolute top-16 left-[-100%] ease-in-out duration-500 h-[100vh] w-[35vh] mx-0 px-5'>
+                            <div className='absolute top-16 left-[-100%] ease-in-out duration-500 h-[100vh] w-[35vh] mx-0 px-5 z-10'>
                                 <div className=' gap-5 flex flex-col '>
                                     <form action="" className='flex gap-4'>
                                         <input className='bg-gra-200 px-4 py-2 border-gray-400 border rounded-md' type="text" placeholder='Search Products..' />
