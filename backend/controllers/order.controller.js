@@ -64,7 +64,7 @@ const addOrderItems = async (req, res, next) => {
 
 
 //@desc   Get orders of logged in user
-//route   GET  /api/orders/myorder
+//route   GET  /api/orders/mine
 //@access Private
 
 
