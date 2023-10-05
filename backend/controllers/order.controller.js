@@ -26,9 +26,9 @@ const addOrderItems = async (req, res, next) => {
         //Mapping over items from client and from database to retrieve price from db and by client
         //in case client manipulate the price we retireve price of product from db
         const dbOverItems = orderItems.map((itemFromClient) => {
-            const matchingItemFromDB = itemsFromDB.find((itemFoundDB) => {
+            const matchingItemFromDB = itemsFromDB.find((itemFoundDB) => (
                 itemFoundDB._id.toString() === itemFromClient._id
-            });
+            ));
             return {
                 ...itemFromClient,
                 product: itemFromClient._id,
