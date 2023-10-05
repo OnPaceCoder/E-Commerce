@@ -1,8 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { Form } from 'react-bootstrap';
 import { addToCart, removeFromCart } from '../slices/cartSlice'
-import { Button, Card, Col, Image, ListGroup, ListGroupItem, Row } from "react-bootstrap"
+import { Button, Card, Col, Image, ListGroup, Row } from "react-bootstrap"
 import Message from '../components/Message';
 import { FaTrash } from 'react-icons/fa'
 const CartScreen = () => {
@@ -37,43 +38,42 @@ const CartScreen = () => {
                     </Message>
                 ) : (
                     <ListGroup variant='flush'>
+                        {cartItems.map((item) => (
+                            <ListGroup.Item key={item._id}>
 
 
-                        {
-                            cartItems.map((item) => {
-                                <ListGroup.Item key={item.id}>
-                                    <Row>
-                                        <Col md={2}>
-                                            <Image src={item.image} fluid rounded />
-                                        </Col>
-                                        <Col md={3}>
-                                            <Link to={`/product/${item._id}`}>
-                                                {item.name}
-                                            </Link>
-                                        </Col>
-                                        <Col md={2}>
-                                            ${item.price}
-                                        </Col>
-                                        <Col md={2}>
-                                            <Form.Control as='select' value={item.qty} onChange={(e) => addToCartHandler(item, Number(e.target.value))}>
-                                                {
-                                                    [...Array(item.countInStock).keys()].map((x) => (
-                                                        <option key={x + 1} value={x + 1}>
-                                                            {x + 1}
-                                                        </option>
-                                                    ))
-                                                }
-                                            </Form.Control>
-                                        </Col>
-                                        <Col md={2}>
-                                            <Button type='button' variant='light' onClick={() => removeFromCartHandler(item._id)}>
+                                <Row>
+                                    <Col md={1}>
+                                        <Image src={item.image} fluid rounded />
+                                    </Col>
+                                    <Col md={2}>
+                                        <Link to={`/product/${item._id}`}>
+                                            {item.name}
+                                        </Link>
+                                    </Col>
+                                    <Col md={2}>
+                                        ${item.price}
+                                    </Col>
+                                    <Col md={2}>
+                                        <Form.Control as='select' value={item.qty} onChange={(e) => addToCartHandler(item, Number(e.target.value))}>
+                                            {
+                                                [...Array(item.countInStock).keys()].map((x) => (
+                                                    <option key={x + 1} value={x + 1}>
+                                                        {x + 1}
+                                                    </option>
+                                                ))
+                                            }
+                                        </Form.Control>
+                                    </Col>
+                                    <Col md={2}>
+                                        <Button type='button' variant='light' onClick={() => removeFromCartHandler(item._id)}>
 
-                                                <FaTrash />
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-                            })
+                                            <FaTrash />
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
+                        ))
                         }
 
                     </ListGroup>
