@@ -5,10 +5,11 @@ import { BiSolidShoppingBags } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import SearchBox from './SearchBox';
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice'
 import { toast } from 'react-toastify'
+import { resetCart } from '../slices/cartSlice';
 const Header = () => {
     const [open, setOpen] = useState(false);
 
@@ -26,6 +27,7 @@ const Header = () => {
             await logoutApi().unwrap()
             dispatch(logout())
             toast.success("Successfully logged out")
+            dispatch(resetCart())
             navigate('/')
         }
         catch (err) {
@@ -56,7 +58,7 @@ const Header = () => {
                         <SearchBox />
                         <div className='flex text-lg items-center '>
                             <RiShoppingCartFill size={20} />
-                            <span>Cart</span>
+                            <Link to={'/cart'}><span>Cart</span> </Link>
                         </div>
 
                         {
@@ -87,7 +89,7 @@ const Header = () => {
                                 <SearchBox />
                                 <div className='flex text-lg items-center   gap-2'>
                                     <RiShoppingCartFill size={20} />
-                                    <span>Cart</span>
+                                    <Link to={'/cart'}><span>Cart</span> </Link>
                                 </div>
                                 {
                                     !userInfo && (
@@ -119,7 +121,7 @@ const Header = () => {
                                     </form>
                                     <div className='flex text-lg items-centergap-2'>
                                         <RiShoppingCartFill size={20} />
-                                        <span>Cart</span>
+                                        <Link to={'/cart'}><span>Cart</span> </Link>
                                     </div>
 
                                     <div className='flex text-lg items-center gap-2'>
