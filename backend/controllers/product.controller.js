@@ -153,7 +153,7 @@ const deleteProduct = async (req, res, next) => {
 //@route  POST /api/products/:id/reviews
 //@access Private
 
-const createProductReview = async (req, res) => {
+const createProductReview = async (req, res, next) => {
     const { rating, comment } = req.body;
     const product = await Product.findById(req.params.id);
 
@@ -165,27 +165,30 @@ const createProductReview = async (req, res) => {
         )
 
         if (alreadyReviewed) {
-            res.status(400);
-            throw new Error('Product already reviewed')
+
+            res.status(400).json({ message: "Product already reviewed" });
+
         }
+        else {
+            const review = {
+                name: req.user.name,
+                rating: Number(rating),
+                comment,
+                user: req.user._id
+            }
 
-        const review = {
-            name: req.user.name,
-            rating: Number(rating),
-            comment,
-            user: req.user._id
+            product.review.push(review)
+
+            product.numReviews = product.review.length;
+
+            product.rating =
+                product.review.reduce((acc, item) => item.rating + acc, 0) / product.review.length;
+
+
+            await product.save();
+            res.status(201).json({ message: 'Review added' });
+
         }
-
-        product.review.push(review)
-
-        product.numReviews = product.review.length;
-
-        product.rating =
-            product.review.reduce((acc, item) => item.rating + acc, 0) / product.review.length;
-
-
-        await product.save();
-        res.status(201).json({ message: 'Review added' });
 
 
 
