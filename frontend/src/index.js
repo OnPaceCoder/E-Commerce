@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 import store from './store';
 import { Provider } from 'react-redux'
+import { HelmetProvider } from 'react-helmet-async';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from 'react-router-dom'
 import HomeScreen from './screens/HomeScreen';
 import AdminRoute from './components/AdminRoute';
@@ -80,10 +82,15 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
+  <HelmetProvider>
 
-    <RouterProvider router={router} />
-  </Provider>
+    <Provider store={store}>
+      <PayPalScriptProvider deferLoading={true}>
+
+        <RouterProvider router={router} />
+      </PayPalScriptProvider>
+    </Provider>
+  </HelmetProvider >
 
 
 
