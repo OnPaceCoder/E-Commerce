@@ -111,19 +111,29 @@ const updateOrderToPaid = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-        const paidCorrectAmount = order.totalPrice.toString() === value;
-        if (!paidCorrectAmount) throw new Error('Incorrect amount paid');
-        order.isPaid = true;
-        order.paidAt = Date.now();
-        order.paymentResult = {
-            id: req.body.id,
-            status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.payer.email_address,
-        }
-        const updatedOrder = await order.save();
 
-        res.json(updatedOrder);
+
+        const paidCorrectAmount = order.totalPrice == value;
+
+        if (!paidCorrectAmount) {
+            const error = new Error("Incorrect amount paid");
+            next(error);
+        }
+        else {
+
+
+            order.isPaid = true;
+            order.paidAt = Date.now();
+            order.paymentResult = {
+                id: req.body.id,
+                status: req.body.status,
+                update_time: req.body.update_time,
+                email_address: req.body.payer.email_address,
+            }
+            const updatedOrder = await order.save();
+
+            res.json(updatedOrder);
+        }
     }
     else {
         res.status(404);
