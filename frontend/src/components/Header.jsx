@@ -25,9 +25,9 @@ const Header = () => {
     const logoutHandler = async () => {
         try {
             await logoutApi().unwrap()
+            dispatch(resetCart())
             dispatch(logout())
             toast.success("Successfully logged out")
-            dispatch(resetCart())
             navigate('/')
         }
         catch (err) {
