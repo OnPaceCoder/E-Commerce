@@ -145,7 +145,7 @@ const updateOrderToPaid = async (req, res, next) => {
 
 
 //@desc    Update order to delivered 
-//@route   GET  /api/orders/:id/deliver
+//@route   PUT  /api/orders/:id/deliver
 //@access  Private/Admin
 
 const updateOrderToDelivered = async (req, res, next) => {
