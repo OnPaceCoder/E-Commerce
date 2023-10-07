@@ -66,9 +66,8 @@ const getProductById = async (req, res) => {
 //@access Private/Admin
 
 const createProduct = async (req, res, next) => {
-    const { image, brand, category, description, rating, numReviews, countInStock } = req.body;
+    const { image, brand, category, description, countInStock, name, price } = req.body;
     const user = req.user._id;
-    const name = req.user.name;
     const product = new Product({
         user,
         name,
@@ -76,9 +75,8 @@ const createProduct = async (req, res, next) => {
         brand,
         category,
         description,
-        rating,
-        numReviews,
         countInStock,
+        price
 
     })
 
