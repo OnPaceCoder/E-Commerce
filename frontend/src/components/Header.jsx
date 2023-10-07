@@ -10,6 +10,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice';
 import { logout } from '../slices/authSlice'
 import { toast } from 'react-toastify'
 import { resetCart } from '../slices/cartSlice';
+import { Dropdown } from 'react-bootstrap';
 const Header = () => {
     const [open, setOpen] = useState(false);
 
@@ -70,12 +71,28 @@ const Header = () => {
                             )
                         }
 
+
                         {
                             userInfo && (
-                                <div className='flex text-lg items-center gap-2 cursor-pointer' onClick={() => { navigate("/login"); logoutHandler(); }}>
-                                    <FaUser size={20} />
-                                    <span >Logout</span>
-                                </div>
+                                <Dropdown>
+                                    <Dropdown.Toggle variant="primary" id="dropdown-basic" className='bg-slate-400'>
+                                        {userInfo.name}
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={() => { navigate("/profile"); }} >Profile</Dropdown.Item>
+                                        {userInfo.isAdmin &&
+                                            <>
+                                                <Dropdown.Item onClick={() => { navigate("/admin/userlist"); }}>User List</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => { navigate("/admin/productlist"); }}>Product List</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => { navigate("/admin/orderlist"); }}>Order List</Dropdown.Item>
+
+                                            </>}
+                                        <Dropdown.Item as='div' onClick={() => { navigate("/login"); logoutHandler(); }} >Logout</Dropdown.Item>
+
+                                    </Dropdown.Menu>
+                                </Dropdown>
+
 
                             )
                         }
@@ -85,7 +102,7 @@ const Header = () => {
                     <div className='md:hidden '>
                         <HiMenu size={25} onClick={() => setOpen(!open)} />
                         {open ? <div className='absolute left-0 top-16 ease-in-out duration-500 h-[100vh] w-full bg-white mx-0 px-5 z-10'>
-                            <div className='gap-5 flex flex-col'>
+                            <div className='gap-4 flex flex-col'>
                                 <SearchBox />
                                 <div className='flex text-lg items-center   gap-2'>
                                     <RiShoppingCartFill size={20} />
@@ -99,12 +116,28 @@ const Header = () => {
                                         </div>
                                     )
                                 }
+
                                 {
                                     userInfo && (
-                                        <div className='flex text-lg items-center gap-2' onClick={() => { navigate("/"); setOpen(!open); logoutHandler() }}>
-                                            <FaUser size={20} />
-                                            <span>Logout</span>
-                                        </div>
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="primary" id="dropdown-basic" className='bg-slate-400'>
+                                                {userInfo.name}
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu>
+                                                <Dropdown.Item onClick={() => { navigate("/profile"); }} >Profile</Dropdown.Item>
+                                                {userInfo.isAdmin &&
+                                                    <>
+                                                        <Dropdown.Item onClick={() => { navigate("/admin/userlist"); }}>User List</Dropdown.Item>
+                                                        <Dropdown.Item onClick={() => { navigate("/admin/productlist"); }}>Product List</Dropdown.Item>
+                                                        <Dropdown.Item onClick={() => { navigate("/admin/orderlist"); }}>Order List</Dropdown.Item>
+
+                                                    </>}
+                                                <Dropdown.Item as='div' onClick={() => { navigate("/login"); logoutHandler(); }} >Logout</Dropdown.Item>
+
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+
 
                                     )
                                 }
@@ -114,7 +147,7 @@ const Header = () => {
                         </div>
                             :
                             <div className='absolute top-16 left-[-100%] ease-in-out duration-500 h-[100vh] w-[35vh] mx-0 px-5 z-10'>
-                                <div className=' gap-5 flex flex-col '>
+                                <div className=' gap-4 flex flex-col '>
                                     <form action="" className='flex gap-4'>
                                         <input className='bg-gra-200 px-4 py-2 border-gray-400 border rounded-md' type="text" placeholder='Search Products..' />
                                         <button className='px-4 py-1 bg-slate-200 rounded-lg text-lg'>Search</button>
@@ -124,10 +157,39 @@ const Header = () => {
                                         <Link to={'/cart'}><span>Cart</span> </Link>
                                     </div>
 
-                                    <div className='flex text-lg items-center gap-2'>
-                                        <FaUser size={20} />
-                                        <span>SignIn</span>
-                                    </div>
+                                    {
+                                        !userInfo && (
+                                            <div className='flex text-lg items-center gap-2' onClick={() => { navigate("/login"); setOpen(!open) }}>
+                                                <FaUser size={20} />
+                                                <span>SignIn</span>
+                                            </div>
+                                        )
+                                    }
+
+                                    {
+                                        userInfo && (
+                                            <Dropdown>
+                                                <Dropdown.Toggle variant="primary" id="dropdown-basic" className='bg-slate-400'>
+                                                    {userInfo.name}
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item onClick={() => { navigate("/profile"); }} >Profile</Dropdown.Item>
+                                                    {userInfo.isAdmin &&
+                                                        <>
+                                                            <Dropdown.Item onClick={() => { navigate("/admin/userlist"); }}>User List</Dropdown.Item>
+                                                            <Dropdown.Item onClick={() => { navigate("/admin/productlist"); }}>Product List</Dropdown.Item>
+                                                            <Dropdown.Item onClick={() => { navigate("/admin/orderlist"); }}>Order List</Dropdown.Item>
+
+                                                        </>}
+                                                    <Dropdown.Item as='div' onClick={() => { navigate("/login"); logoutHandler(); }} >Logout</Dropdown.Item>
+
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+
+
+                                        )
+                                    }
                                 </div>
                             </div>
 
